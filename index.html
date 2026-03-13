@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>你想復合嗎？</title>
+    <style>
+        body {
+            background-color: #ffe6e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 100px;
+        }
+
+        .gif-container {
+            height: 300px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .botoes-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100px;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #btnSim {
+            background-color: #ff4d6d;
+            color: white;
+            z-index: 1;
+        }
+
+        #btnNao {
+            background-color: #888;
+            color: white;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="tituloMain">你想復合嗎？</h1>
+
+    <div class="gif-container">
+        <img id="imagemAnimada" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaWp6M2Z6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/MBfnmipP1NfTSKr2IE/giphy.gif" width="300" alt="Shin-chan">
+    </div>
+
+    <div class="botoes-container">
+        <button id="btnSim" onclick="responderSim()">是</button>
+        <button id="btnNao" onmouseover="fugirENao()">不</button>
+    </div>
+
+    <script>
+        let tamanhoFonteSim = 1.2;
+
+        function responderSim() {
+            // Muda o título
+            document.getElementById("tituloMain").innerHTML = "我始終都知道 ❤️<br><span style='font-size: 1.5rem;'>我愛你</span>";
+            
+            // Esconde os botões
+            document.getElementById("btnSim").style.display = "none";
+            document.getElementById("btnNao").style.display = "none";
+            
+            // GIF 2: Beijo (Depois do Sim)
+            document.getElementById("imagemAnimada").src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaWp6M2Z6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/d47HFwAbGv3OmqfC/giphy.gif";
+        }
+
+        function fugirENao() {
+            const btnNao = document.getElementById("btnNao");
+            const btnSim = document.getElementById("btnSim");
+
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 150);
+            
+            btnNao.style.position = "fixed";
+            btnNao.style.left = x + "px";
+            btnNao.style.top = y + "px";
+
+            // O botão Sim continua crescendo a cada tentativa de clicar no Não
+            tamanhoFonteSim += 0.5; 
+            btnSim.style.fontSize = tamanhoFonteSim + "rem";
+            
+            let padV = parseInt(window.getComputedStyle(btnSim).paddingTop);
+            let padH = parseInt(window.getComputedStyle(btnSim).paddingLeft);
+            btnSim.style.padding = (padV + 5) + "px " + (padH + 10) + "px";
+        }
+    </script>
+
+</body>
+</html>
