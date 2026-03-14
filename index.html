@@ -2,6 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>你想復合嗎？</title>
     <style>
         body {
@@ -14,6 +15,7 @@
             margin: 0;
             font-family: sans-serif;
             overflow: hidden;
+            touch-action: manipulation; /* Melhora a resposta ao toque */
         }
 
         h1 {
@@ -22,6 +24,7 @@
             margin-bottom: 20px;
             text-align: center;
             min-height: 100px;
+            padding: 0 15px;
         }
 
         .gif-container {
@@ -49,6 +52,7 @@
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent; /* Remove o brilho ao tocar no celular */
         }
 
         #btnSim {
@@ -74,36 +78,46 @@
 
     <div class="botoes-container">
         <button id="btnSim" onclick="responderSim()">是</button>
-        <button id="btnNao" onmouseover="fugirENao()">不</button>
+        <button id="btnNao" 
+                onmouseover="fugirENao(event)" 
+                ontouchstart="fugirENao(event)" 
+                onclick="fugirENao(event)">不</button>
     </div>
 
     <script>
         let tamanhoFonteSim = 1.2;
 
         function responderSim() {
-            // Muda o título
             document.getElementById("tituloMain").innerHTML = "我始終都知道 ❤️<br><span style='font-size: 1.5rem;'>我愛你</span>";
-            
-            // Esconde os botões
             document.getElementById("btnSim").style.display = "none";
             document.getElementById("btnNao").style.display = "none";
-            
-            // GIF 2: Beijo (Depois do Sim)
             document.getElementById("imagemAnimada").src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaWp6M2Z6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6Znh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/d47HFwAbGv3OmqfC/giphy.gif";
         }
 
-        function fugirENao() {
+        function fugirENao(event) {
+            // Previne o clique real ou zoom no celular
+            if (event) {
+                event.preventDefault();
+            }
+
             const btnNao = document.getElementById("btnNao");
             const btnSim = document.getElementById("btnSim");
 
-            const x = Math.random() * (window.innerWidth - 150);
-            const y = Math.random() * (window.innerHeight - 150);
+            // Define limites para o botão não sair da tela (ajustado para celular)
+            const larguraBotao = btnNao.offsetWidth;
+            const alturaBotao = btnNao.offsetHeight;
+
+            const maxX = window.innerWidth - larguraBotao - 20;
+            const maxY = window.innerHeight - alturaBotao - 20;
+
+            const x = Math.max(10, Math.random() * maxX);
+            const y = Math.max(10, Math.random() * maxY);
             
             btnNao.style.position = "fixed";
             btnNao.style.left = x + "px";
             btnNao.style.top = y + "px";
 
-            // O botão Sim continua crescendo a cada tentativa de clicar no Não
+            // Crescimento do botão SIM
             tamanhoFonteSim += 0.5; 
             btnSim.style.fontSize = tamanhoFonteSim + "rem";
             
